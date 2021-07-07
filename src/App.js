@@ -1,14 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
+import ChatRoom from './components/ChatRoom';
+import './App.css';
 // firebase SDK
 import firebase from 'firebase/app';
-import firestore from './firebase';
 import 'firebase/firestore'; // for database
 import 'firebase/auth'; // user authentication
-import './App.css';
-
 // Hooks that make it easier to use firebase in react
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 // reference made as global variables
 const auth = firebase.auth();
@@ -24,7 +22,7 @@ function App() {
       </header>
       <section>
         {/* if user is logged in, show chatroom, else, show sign in */}
-        {user ? <ChatRoom /> : <SignIn />}
+        {user ? <ChatRoom auth={auth} /> : <SignIn />}
       </section>
     </div>
   );
@@ -47,74 +45,6 @@ function SignIn() {
 function SignOut() {
   return (
     auth.currentUser && <button onClick={() => auth.signOut()}>Sign Out</button>
-  );
-}
-
-function ChatRoom() {
-  const scrollToCurrent = useRef();
-
-  // reference a firestore collection
-  const messagesRef = firestore.collection('messages');
-  // query documents in a collection
-  const query = messagesRef.orderBy('createdAt').limit(25);
-
-  // listen to data update in realtime with a hook
-  const [messages] = useCollectionData(query, { idField: 'id' });
-  // jj
-  const [formValue, setFormValue] = useState('');
-
-  const sendMessage = async (e) => {
-    e.preventDefault();
-
-    const { uid, photoURL } = auth.currentUser;
-
-    await messagesRef.add({
-      text: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL,
-    });
-
-    setFormValue('');
-    scrollToCurrent.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  return (
-    <>
-      <main>
-        <div>
-          {messages &&
-            messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
-        </div>
-
-        <span ref={scrollToCurrent}></span>
-      </main>
-
-      <form onSubmit={sendMessage}>
-        <input
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-        />
-        <button type='submit'>Send</button>
-      </form>
-    </>
-  );
-}
-
-function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
-
-  return (
-    <>
-      <div className={`message ${messageClass}`}>
-        <img
-          src={photoURL || 'https://ui-avatars.com/api/?background=random'}
-          alt='user avatar'
-        />
-        <p>{text}</p>
-      </div>
-    </>
   );
 }
 
