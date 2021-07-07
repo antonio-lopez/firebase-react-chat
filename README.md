@@ -6,7 +6,7 @@
 
 ### 🏠 [Homepage](https://recollects.netlify.app)
 
-![screenshot]()
+![screenshot](https://github.com/antonio-lopez/firebase-react-chat/blob/main/uploads/firebase-chat-app-screenshot.png?raw=true)
 
 ## Prerequisites
 
