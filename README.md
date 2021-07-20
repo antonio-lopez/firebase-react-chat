@@ -4,7 +4,7 @@
 
 > A React chat app using Firebase for the backend and Google Sign-In for authenticating users.
 
-### 🏠 [Homepage](https://recollects.netlify.app)
+### 🏠 [Homepage](https://antonio-firebase-chat-app.netlify.app/)
 
 ![screenshot](https://github.com/antonio-lopez/firebase-react-chat/blob/main/uploads/firebase-chat-app-screenshot.png?raw=true)
 
