@@ -6,7 +6,7 @@
 
 ### 🏠 [Homepage](https://antonio-firebase-chat-app.netlify.app/)
 
-![screenshot](https://github.com/antonio-lopez/firebase-react-chat/blob/main/uploads/firebase-chat-app-screenshot.png?raw=true)
+![screenshot](/uploads/firebase-chat-app-screenshot.png?raw=true)
 
 ## Prerequisites
 
